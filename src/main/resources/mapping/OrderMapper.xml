@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.giftpay.pay.order.dao.OrderDao">
+
+    <resultMap id="Order" type="com.giftpay.pay.order.model.Order">
+        <id column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="pay_type" property="payType"/>
+        <result column="pay_mode" property="payMode"/>
+        <result column="ref_id" property="refId"/>
+        <result column="create_time" property="createTime"/>
+    </resultMap>
+
+    <sql id="insertYs">
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId !=null">
+                user_id,
+            </if>
+            <if test="payType !=null">
+                pay_type,
+            </if>
+            <if test="payMode !=null">
+                pay_mode,
+            </if>
+            <if test="refId !=null">
+                ref_id,
+            </if>
+            <if test="createTime !=null">
+                create_time,
+            </if>
+        </trim>
+    </sql>
+
+    <sql id="insertValue">
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId !=null">
+                #{userId},
+            </if>
+            <if test="payType !=null">
+                #{payType},
+            </if>
+            <if test="payMode !=null">
+                #{payMode},
+            </if>
+            <if test="refId !=null">
+                #{refId},
+            </if>
+            <if test="createTime !=null">
+                #{createTime},
+            </if>
+        </trim>
+    </sql>
+
+    <insert id="insertOrder" useGeneratedKeys="true" keyProperty="id" parameterType="com.giftpay.pay.order.model.Order">
+        INSERT INTO t_order
+        <include refid="insertYs"/>
+        VALUES
+        <include refid="insertValue"/>
+    </insert>
+
+    <select id="listOrder" parameterType="com.giftpay.pay.order.model.Order" resultMap="Order">
+        SELECT * FROM t_order
+        WHERE id = #{id}
+    </select>
+
+    <select id="getOrderById" parameterType="java.lang.String" resultMap="Order">
+        SELECT * FROM t_order
+        WHERE id = #{id}
+    </select>
+
+</mapper>

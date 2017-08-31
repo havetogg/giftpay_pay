@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.giftpay.pay.common.dao.AccessTokenDao">
+
+    <resultMap id="AccessTokenMap" type="com.giftpay.pay.common.model.AccessToken">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="user_id" property="userId" jdbcType="BIGINT"/>
+        <result column="access_token" property="accessToken" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="DATE"/>
+    </resultMap>
+
+    <select id="getAccessTokenByUid" parameterType="java.lang.String" resultMap="AccessTokenMap">
+        SELECT * FROM access_token
+        WHERE user_id = #{userId}
+    </select>
+
+</mapper>

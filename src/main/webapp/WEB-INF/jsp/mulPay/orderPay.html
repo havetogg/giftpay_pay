@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="initial-scale=0.5,maximum-scale=0.5,minimum-scale=0.5, width=640, target-densitydpi=device-dpi">
+		<meta http-eqiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+		<meta content="yes" name="apple-mobile-web-app-capable">
+		<meta content="black" name="apple-mobile-web-app-status-bar-style">
+		<meta content="telephone=no" name="format-detection">
+		<title>订单确认</title>
+		<link type="text/css" href="statics/mulPay/css/account.css" rel="stylesheet">
+		<script type="text/javascript" src="js/common/jQuery-1.11.3.js"></script>
+		<script type="text/javascript" src="js/common/jWeChat-Adaptive.js"></script>
+		<script type="text/javascript" src="js/common/common.js"></script>
+		<script type="text/javascript" src="js/common/m.tool.juxinbox.com.js"></script>
+		<script type="text/javascript" src="js/common/jWeChat-1.0.0.js"></script>
+		
+	<body>
+		<div class="zoomer">
+			<div class="orderPay">
+				<!--订单金额-->
+				<div class="tip">
+					<h1 class="rechargeName"></h1>
+					<ul class="order">
+						<li>
+							<label>金额</label>
+							<span class="rmb payamount"></span>
+						</li>
+						<!--<li class="haveRedPkg">
+							<label class="derate">抵用券</label>
+							<span class="rmb2"></span>
+						</li>-->
+					</ul>
+					<div class="toPaid">
+						待支付
+						<span class="rmb paymoney"></span>
+					</div>
+				</div>
+				<!--支付方式选择-->
+				<div class="tip">
+					<h1>支付方式</h1>
+					<ul class="pay">
+						<li class="wx">
+							微信支付
+							<input class="checked" type="radio" value="wxpay" name="pay" checked/>
+							<label style="position: relative;right: 25px;"></label>
+						</li>
+					<!--<li class="qb">
+							钱包余额
+							<input type="radio" name="pay" value="balance"  checked/>
+							<label></label>
+							<span class="balanceMoney">¥</span>
+						</li>
+						<li class="qb no">
+							钱包余额
+							<input type="radio" name="pay" />
+							<label></label>
+							<span class="lessBanlance">余额不足 ¥</span>
+						</li>-->
+						<li class="jf">
+							积分余额
+							<input type="radio" name="pay" value="balance"  checked/>
+							<label style="position: relative;right: 25px;"></label>
+							<span class="balanceMoney"></span>
+						</li>
+					</ul>
+				</div>
+				<!--支付按钮-->
+				<a class="toPay" href="javascript:;">立即支付</a>
+			</div>
+		</div>
+	</body>
+	<script>
+        $(document).ready(function() {
+            $(".pay li").on("click", function() {
+                if(!$(this).hasClass("no")) {
+                    payMode = $(this).find("input").val();
+                    console.log(payMode);
+                    $(".pay li").find("input").removeClass("checked");
+                    $(".pay li").find("input").attr("checked", false);
+                    $(this).find("input").addClass("checked");
+                    $(this).find("input").attr("checked", "checked");
+                }
+            })
+        });
+		/*function payOilByWX(params) {
+			//alerw("调用微信支付");
+			loading("start")
+			$.ajax({
+				url: getRootPath() + "/giftpay/recharge/preOrder.htm",
+//				url: getRootPath() + "/giftpay/recharge/preOrderByCmbc.htm",
+				type: "post",
+				//data: { "openId": openId, "userId": userId, "rechargeName": rechargeName, "payamount": payamount, "realmount": realmount, "rechargeType": rechargeType, "redPkgId": redPkgId, "lifeType": lifeType },
+				//            data:{'money':'1'},
+				data: params,
+				dataType: "json",
+				success: function(data) {
+					if(data.code == "10000") {
+						var payResult = JSON.parse(data.mess)
+						var payId = payResult.orderId;
+						wx.config({
+							debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+							appId: payResult.appId, // 必填，公众号的唯一标识
+							timestamp: payResult.timestamp, // 必填，生成签名的时间戳
+							nonceStr: payResult.nonceStr, // 必填，生成签名的随机串
+							signature: payResult.paySign, // 必填，签名，见附录1
+							jsApiList: ['chooseWXPay'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+						});
+						wx.ready(function() {
+							// config信息验证后会执行ready方法，所有接口调用都必须在config接口获得结果之后，config是一个客户端的异步操作，所以如果需要在页面加载时就调用相关接口，则须把相关接口放在ready函数中调用来确保正确执行。对于用户触发时才调用的接口，则可以直接调用，不需要放在ready函数中。
+							wx.chooseWXPay({
+								timestamp: payResult.timestamp, // 支付签名时间戳，注意微信jssdk中的所有使用timestamp字段均为小写。但最新版的支付后台生成签名使用的timeStamp字段名需大写其中的S字符
+								nonceStr: payResult.nonceStr, // 支付签名随机串，不长于 32 位
+								package: payResult.package, // 统一支付接口返回的prepay_id参数值，提交格式如：prepay_id=***）
+								signType: payResult.signType, // 签名方式，默认为'SHA1'，使用新版支付需传入'MD5'
+								paySign: payResult.paySign, // 支付签名
+								success: function(res) {
+									console.log(JSON.stringify(res));
+									//alert(JSON.stringify(res));
+									loading("stop");
+									var realmount = $(".paymoney").html();
+									var rechargeType = getUrlParam("rechargeType"); //判断是什么充值
+									var backUrl=getUrlParam("backUrl");
+									if(rechargeType == 'zshgame') {
+										location.href = 'success.html?backUrl=' + backUrl+"&orderNo="+payId+"&type=wx&money="+realmount;
+									}
+										location.href = 'success.html?backUrl=&orderNo='+payId+"&type=wx&money="+realmount;
+								},
+								cancel: function(res) {//取消支付
+									//alert('取消支付');
+									loading("stop");
+								},
+								fail:function(res){//支付失败
+									TipShow("充值失败 请联系客服",1000);
+									loading("stop");
+								}
+							});
+						});
+					} else if(data.code == "30000") {
+						loading("stop");
+						alert(data.mess);
+						/!*alerw("登录超时，请重新登录", "", function() {
+							window.location.href = "/giftpay_wap/giftpay/wap/wxLogin.htm";
+						});*!/
+					} else {
+						loading("stop");
+						alert(data.mess);
+					}
+				}
+			});
+		}*/
+	</script>
+
+</html>

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.giftpay.pay.order.dao.ZshIntegralOrderDao">
+
+    <resultMap id="ZshIntegralOrder" type="com.giftpay.pay.order.model.ZshIntegralOrder">
+        <id column="id" property="id"/>
+        <result column="js_user_id" property="jsUserId"/>
+        <result column="cost_integral" property="costIntegral"/>
+        <result column="pay_source" property="paySource"/>
+        <result column="back_url" property="backUrl"/>
+        <result column="notify_url" property="notifyUrl"/>
+        <result column="create_time" property="createTime"/>
+        <result column="deal_time" property="dealTime"/>
+        <result column="status" property="status"/>
+    </resultMap>
+
+    <sql id="insertYs">
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id !=null">
+                id,
+            </if>
+            <if test="jsUserId !=null">
+                js_user_id,
+            </if>
+            <if test="costIntegral !=null">
+                cost_integral,
+            </if>
+            <if test="paySource !=null">
+                pay_source,
+            </if>
+            <if test="backUrl !=null">
+                back_url,
+            </if>
+            <if test="notifyUrl !=null">
+                notify_url,
+            </if>
+            <if test="createTime !=null">
+                create_time,
+            </if>
+            <if test="dealTime !=null">
+                deal_time,
+            </if>
+            <if test="status !=null">
+                status,
+            </if>
+        </trim>
+    </sql>
+
+    <sql id="insertValue">
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id !=null">
+                #{id},
+            </if>
+            <if test="jsUserId !=null">
+                #{jsUserId},
+            </if>
+            <if test="costIntegral !=null">
+                #{costIntegral},
+            </if>
+            <if test="paySource !=null">
+                #{paySource},
+            </if>
+            <if test="backUrl !=null">
+                #{backUrl},
+            </if>
+            <if test="notifyUrl !=null">
+                #{notifyUrl},
+            </if>
+            <if test="createTime !=null">
+                #{createTime},
+            </if>
+            <if test="dealTime !=null">
+                #{dealTime},
+            </if>
+            <if test="status !=null">
+                #{status},
+            </if>
+        </trim>
+    </sql>
+
+    <insert id="insertZshIntegralOrder" useGeneratedKeys="true" keyProperty="id" parameterType="com.giftpay.pay.order.model.ZshIntegralOrder">
+        INSERT INTO zsh_integral_order
+        <include refid="insertYs"/>
+        VALUES
+        <include refid="insertValue"/>
+    </insert>
+
+    <select id="listZshIntegralOrder" parameterType="com.giftpay.pay.order.model.ZshIntegralOrder" resultMap="ZshIntegralOrder">
+        SELECT * FROM zsh_integral_order
+        WHERE id = #{id}
+    </select>
+
+    <select id="getZshIntegralOrderById" parameterType="java.lang.String" resultMap="ZshIntegralOrder">
+        SELECT * FROM zsh_integral_order
+        WHERE id = #{id}
+    </select>
+
+    <update id="updateZshIntegralOrder" parameterType="com.giftpay.pay.order.model.ZshIntegralOrder">
+        update zsh_integral_order
+        <set>
+            <if test="status !=null">
+                status = #{status},
+            </if>
+        </set>
+        <where>
+            id = #{id}
+        </where>
+    </update>
+
+</mapper>

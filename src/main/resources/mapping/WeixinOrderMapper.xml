@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.giftpay.pay.order.dao.WeixinOrderDao">
+
+    <resultMap id="WeixinOrder" type="com.giftpay.pay.order.model.WeixinOrder">
+        <id column="id" property="id"/>
+        <result column="appid" property="appid"/>
+        <result column="body" property="body"/>
+        <result column="mch_id" property="mch_id"/>
+        <result column="nonce_str" property="nonce_str"/>
+        <result column="notify_url" property="notify_url"/>
+        <result column="openid" property="openid"/>
+        <result column="out_trade_no" property="out_trade_no"/>
+        <result column="spbill_create_ip" property="spbill_create_ip"/>
+        <result column="total_fee" property="total_fee"/>
+        <result column="trade_type" property="trade_type"/>
+        <result column="sign" property="sign"/>
+        <result column="js_config" property="js_config"/>
+        <result column="back_url" property="backUrl"/>
+        <result column="renotify_url" property="reNotifyUrl"/>
+        <result column="create_time" property="createTime"/>
+        <result column="deal_time" property="dealTime"/>
+        <result column="status" property="status"/>
+    </resultMap>
+
+    <sql id="insertYs">
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="appid !=null">
+                appid,
+            </if>
+            <if test="body !=null">
+                body,
+            </if>
+            <if test="mch_id !=null">
+                mch_id,
+            </if>
+            <if test="nonce_str !=null">
+                nonce_str,
+            </if>
+            <if test="notify_url !=null">
+                notify_url,
+            </if>
+            <if test="openid !=null">
+                openid,
+            </if>
+            <if test="out_trade_no !=null">
+                out_trade_no,
+            </if>
+            <if test="spbill_create_ip !=null">
+                spbill_create_ip,
+            </if>
+            <if test="total_fee !=null">
+                total_fee,
+            </if>
+            <if test="trade_type !=null">
+                trade_type,
+            </if>
+            <if test="sign !=null">
+                sign,
+            </if>
+            <if test="js_config !=null">
+                js_config,
+            </if>
+
+            <if test="backUrl !=null">
+                back_url,
+            </if>
+            <if test="reNotifyUrl !=null">
+                renotify_url,
+            </if>
+
+            <if test="createTime !=null">
+                create_time,
+            </if>
+            <if test="dealTime !=null">
+                deal_time,
+            </if>
+            <if test="status !=null">
+                status,
+            </if>
+        </trim>
+    </sql>
+
+    <sql id="insertValue">
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="appid !=null">
+                #{appid},
+            </if>
+            <if test="body !=null">
+                #{body},
+            </if>
+            <if test="mch_id !=null">
+                #{mch_id},
+            </if>
+            <if test="nonce_str !=null">
+                #{nonce_str},
+            </if>
+            <if test="notify_url !=null">
+                #{notify_url},
+            </if>
+            <if test="openid !=null">
+                #{openid},
+            </if>
+            <if test="out_trade_no !=null">
+                #{out_trade_no},
+            </if>
+            <if test="spbill_create_ip !=null">
+                #{spbill_create_ip},
+            </if>
+            <if test="total_fee !=null">
+                #{total_fee},
+            </if>
+            <if test="trade_type !=null">
+                #{trade_type},
+            </if>
+            <if test="sign !=null">
+                #{sign},
+            </if>
+            <if test="js_config !=null">
+                #{js_config},
+            </if>
+
+            <if test="backUrl !=null">
+                #{backUrl},
+            </if>
+            <if test="reNotifyUrl !=null">
+                #{reNotifyUrl},
+            </if>
+
+            <if test="createTime !=null">
+                #{createTime},
+            </if>
+            <if test="dealTime !=null">
+                #{dealTime},
+            </if>
+            <if test="status !=null">
+                #{status},
+            </if>
+        </trim>
+    </sql>
+
+    <insert id="insertWeixinOrder" useGeneratedKeys="true" keyProperty="id" parameterType="com.giftpay.pay.order.model.WeixinOrder">
+        INSERT INTO weixin_order
+        <include refid="insertYs"/>
+        VALUES
+        <include refid="insertValue"/>
+    </insert>
+
+    <select id="listWeixinOrder" parameterType="com.giftpay.pay.order.model.WeixinOrder" resultMap="WeixinOrder">
+        SELECT * FROM weixin_order
+        <where>
+            <if test="out_trade_no !=null">
+                and out_trade_no = #{out_trade_no}
+            </if>
+            <if test="id !=null">
+                and id = #{id}
+            </if>
+        </where>
+    </select>
+
+    <select id="getWeixinOrderById" parameterType="java.lang.String" resultMap="WeixinOrder">
+        SELECT * FROM weixin_order
+        WHERE id = #{id}
+    </select>
+
+    <update id="updateWeixinOrder" parameterType="com.giftpay.pay.order.model.WeixinOrder">
+        update weixin_order
+        <set>
+            <if test="appid !=null">
+                appid = #{appid},
+            </if>
+            <if test="body !=null">
+                body = #{body},
+            </if>
+            <if test="mch_id !=null">
+                mch_id = #{mch_id},
+            </if>
+            <if test="nonce_str !=null">
+                nonce_str = #{nonce_str},
+            </if>
+            <if test="notify_url !=null">
+                notify_url = #{notify_url},
+            </if>
+            <if test="openid !=null">
+                openid = #{openid},
+            </if>
+            <if test="out_trade_no !=null">
+                out_trade_no = #{out_trade_no},
+            </if>
+            <if test="spbill_create_ip !=null">
+                spbill_create_ip = #{spbill_create_ip},
+            </if>
+            <if test="total_fee !=null">
+                total_fee = #{total_fee},
+            </if>
+            <if test="trade_type !=null">
+                trade_type = #{trade_type},
+            </if>
+            <if test="sign !=null">
+                sign = #{sign},
+            </if>
+            <if test="js_config !=null">
+                js_config = #{js_config},
+            </if>
+            <if test="backUrl !=null">
+                back_url = #{backUrl},
+            </if>
+            <if test="reNotifyUrl !=null">
+                renotify_url = #{reNotifyUrl},
+            </if>
+            <if test="createTime !=null">
+                create_time = #{createTime},
+            </if>
+            <if test="dealTime !=null">
+                deal_time = #{dealTime},
+            </if>
+            <if test="status !=null">
+                status = #{status},
+            </if>
+        </set>
+        <where>
+            id = #{id}
+        </where>
+    </update>
+</mapper>
