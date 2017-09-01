@@ -65,7 +65,7 @@
         <header>
             <img src="${pageContext.request.contextPath}/statics/zshIntegralPay/img/success.png"/>
             <p>订单支付成功</p>
-            <a class="toHomePage" href="javascript:;">前往首页</a>
+            <a class="toHomePage" href="javascript:;">返回</a>
         </header>
         <ul class="recharge">
             <li>
@@ -78,7 +78,7 @@
             </li>
             <li>
                 <label>实付积分:</label>
-                <span class="rmb">${zshIntegralOrder.costIntegral}</span>
+                <span>${zshIntegralOrder.costIntegral}</span>
             </li>
             <li>
                 <label>下单时间:</label>

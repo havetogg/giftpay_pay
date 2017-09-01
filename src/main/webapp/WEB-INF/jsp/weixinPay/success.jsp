@@ -65,7 +65,7 @@
         <header>
             <img src="${pageContext.request.contextPath}/statics/weixinPay/img/success.png"/>
             <p>订单支付成功</p>
-            <a class="toHomePage" href="javascript:;">前往首页</a>
+            <a class="toHomePage" href="javascript:;">返回</a>
         </header>
         <ul class="recharge">
             <li>
